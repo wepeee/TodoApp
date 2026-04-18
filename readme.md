@@ -1,65 +1,74 @@
-# Ketentuan Pengumpulan - Daily Task Manager
+# Daily Task Manager
 
-## 1) Title Aplikasi
+Aplikasi To-Do List personal berbasis Kotlin + Jetpack Compose.
 
-**Daily Task Manager**
+## Fitur
+- Tambah tugas dengan deadline tanggal & waktu (dropdown).
+- Tandai tugas selesai (checkbox).
+- Hapus tugas.
+- Sorting berdasarkan deadline/status.
+- UI Material Design.
+- State tersimpan saat rotasi layar (Android).
 
-## 2) Deskripsi Aplikasi dan Fitur
+## Tech Stack
+- Kotlin
+- Jetpack Compose (Android)
+- Compose Desktop (JVM)
+- Gradle
 
-Daily Task Manager adalah aplikasi To-Do List personal berbasis Kotlin + Jetpack Compose untuk membantu pengguna mengelola tugas harian.
+## Struktur Project
+- `androidApp/` : aplikasi Android (emulator/perangkat)
+- `app/` : aplikasi desktop (Compose Desktop)
 
-Fitur utama:
+## Cara Menjalankan
 
-- Menambah tugas dengan **deadline tanggal & waktu** (dropdown Tahun/Bulan/Hari/Jam/Menit).
-- Menandai tugas selesai dengan **checkbox**.
-- Menghapus tugas.
-- Sorting tugas berdasarkan:
-  - Deadline terdekat
-  - Deadline terjauh
-  - Status
-- UI Material Design dan state tetap aman saat rotasi layar (Android).
+### Android
+```bash
+./gradlew :androidApp:assembleDebug
+./gradlew :androidApp:installDebug
+```
 
-## 3) Foto Infografis Aplikasi - Thumbnail
+APK output:
+- `androidApp/build/outputs/apk/debug/androidApp-debug.apk`
 
-- [ ] Tambahkan file gambar infografis/thumbnail.
-- Saran nama file: `assets/thumbnail-daily-task-manager.png`
+### Desktop
+```bash
+./gradlew :app:run
+```
 
-## 4) PPT (dalam PDF): Deskripsi, Desain, Cara Mengerjakan
+## TODO Sebelum Publish / Pengumpulan
+- [ ] Isi nama anggota tim di bagian "Anggota".
+- [ ] Tambahkan screenshot aplikasi di bagian "Screenshot".
+- [ ] Isi link video demo.
+- [ ] Isi link blog anggota 1.
+- [ ] Isi link file presentasi PDF.
+- [ ] Isi link download APK online (Drive/Release).
+- [ ] Isi link repository publik (kalau README ini dipakai di template awal).
 
-- [ ] Tambahkan file PDF presentasi.
-- Saran nama file: `docs/presentasi-daily-task-manager.pdf`
+## Anggota
+- [ ] Anggota 1 - `<NAMA> (<NIM>)`
+- [ ] Anggota 2 - `<NAMA> (<NIM>)`
+- [ ] Anggota 3 - `<NAMA> (<NIM>)`
 
-## 5) Link Blog Anggota 1
+## Screenshot
+- [ ] Thumbnail/infografis: `<TAMBAHKAN_GAMBAR_DI_REPO>`
+- [ ] UI aplikasi:
+  - `<TAMBAHKAN_SCREENSHOT_1>`
+  - `<TAMBAHKAN_SCREENSHOT_2>`
 
-- [ ] Isi link blog:
-      `<ISI_LINK_BLOG_ANGGOTA_1>`
+Contoh markdown gambar:
+```md
+![Thumbnail](assets/thumbnail-daily-task-manager.png)
+![Home Screen](assets/screenshot-home.png)
+```
 
-## 6) Video Presentasi
+## Link Penting
+- Video presentasi: `<ISI_LINK_VIDEO_PRESENTASI>`
+- Blog anggota 1: `<ISI_LINK_BLOG_ANGGOTA_1>`
+- Slide/PDF presentasi: `<ISI_LINK_PDF_PRESENTASI>`
+- Download APK: `<ISI_LINK_DOWNLOAD_APK>`
+- Repository: `<ISI_LINK_REPOSITORY>`
 
-- [ ] Isi link video:
-      `<ISI_LINK_VIDEO_PRESENTASI>`
-
-## 7) Link Source Code
-
-- Lokal (project ini):
-  `e:\Kuliah\Semester 6\PPB\TodoApp`
-- [ ] Isi link repository online (GitHub/GitLab):
-      `<ISI_LINK_REPOSITORY>`
-
-## 8) Link Aplikasi / Download
-
-- APK debug lokal (sudah ter-generate):
-  `androidApp/build/outputs/apk/debug/androidApp-debug.apk`
-- [ ] Isi link download online (Drive/Release):
-      `<ISI_LINK_DOWNLOAD_APK>`
-
----
-
-## Checklist Final Sebelum Submit
-
-- [ ] Semua placeholder `<ISI_...>` sudah diisi.
-- [ ] Thumbnail sudah ada.
-- [ ] PDF presentasi sudah ada.
-- [ ] Link video bisa diakses.
-- [ ] Link source code publik/diizinkan dosen.
-- [ ] APK bisa di-install dan dijalankan di emulator/perangkat.
+## Catatan
+- Jika build gagal karena cache Gradle lokal, pastikan `.gradle-user` tidak ikut di-commit.
+- Untuk Android Studio, jalankan module `androidApp` (bukan `app`) jika target emulator.
