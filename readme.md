@@ -37,7 +37,7 @@ APK output:
 ```
 
 ## TODO Sebelum Publish / Pengumpulan
-- [ ] Isi nama anggota tim di bagian "Anggota".
+- [ ] Isi data diri di bagian "Pengembang".
 - [ ] Tambahkan screenshot aplikasi di bagian "Screenshot".
 - [ ] Isi link video demo.
 - [ ] Isi link blog anggota 1.
@@ -45,10 +45,8 @@ APK output:
 - [ ] Isi link download APK online (Drive/Release).
 - [ ] Isi link repository publik (kalau README ini dipakai di template awal).
 
-## Anggota
-- [ ] Anggota 1 - `<NAMA> (<NIM>)`
-- [ ] Anggota 2 - `<NAMA> (<NIM>)`
-- [ ] Anggota 3 - `<NAMA> (<NIM>)`
+## Pengembang
+- [ ] `<NAMA> (<NIM>)`
 
 ## Screenshot
 - [ ] Thumbnail/infografis: `<TAMBAHKAN_GAMBAR_DI_REPO>`
