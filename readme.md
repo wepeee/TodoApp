@@ -44,7 +44,7 @@ APK output:
 
 ## Pengembang
 
-- [ ] `Ryan Wiratara Prasetyo 5025231224`
+- `Ryan Wiratara Prasetyo 5025231224`
 
 ## Screenshot
 
