@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
@@ -29,10 +30,12 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -62,7 +65,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
+            MaterialTheme(colorScheme = NotionColorScheme) {
                 TodoAppAndroid()
             }
         }
@@ -85,6 +88,24 @@ enum class SortOption(val label: String) {
 private val deadlineFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 private val headerDateFormatter: DateTimeFormatter =
     DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.ENGLISH)
+
+private val NotionBg = Color(0xFF191919)
+private val NotionSurface = Color(0xFF232323)
+private val NotionSurfaceElevated = Color(0xFF2B2B2B)
+private val NotionBorder = Color(0xFF3A3A3A)
+private val NotionText = Color(0xFFEDEDED)
+private val NotionMuted = Color(0xFFA0A0A0)
+private val NotionDanger = Color(0xFFCF6679)
+
+private val NotionColorScheme = darkColorScheme(
+    primary = NotionText,
+    onPrimary = NotionBg,
+    background = NotionBg,
+    onBackground = NotionText,
+    surface = NotionSurface,
+    onSurface = NotionText,
+    error = NotionDanger
+)
 
 private val taskListSaver = listSaver<SnapshotStateList<Task>, List<Any>>(
     save = { taskList ->
@@ -204,12 +225,12 @@ fun TodoAppAndroid() {
     }
 
     Scaffold(
-        containerColor = Color(0xFFF4F6FB),
+        containerColor = NotionBg,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showAddDialog = true },
-                containerColor = Color(0xFF1A9AF5),
-                contentColor = Color.White
+                containerColor = NotionSurfaceElevated,
+                contentColor = NotionText
             ) {
                 Text(text = "+", fontSize = 24.sp, fontWeight = FontWeight.Bold)
             }
@@ -239,19 +260,23 @@ fun TodoAppAndroid() {
                     Text(
                         text = "Task",
                         style = MaterialTheme.typography.titleMedium,
-                        color = Color(0xFF3C3C3C)
+                        color = NotionText
                     )
                     Box {
-                        TextButton(onClick = { isSortMenuOpen = true }) {
+                        TextButton(
+                            onClick = { isSortMenuOpen = true },
+                            colors = ButtonDefaults.textButtonColors(contentColor = NotionMuted)
+                        ) {
                             Text("Sort: ${sortOption.label}")
                         }
                         DropdownMenu(
                             expanded = isSortMenuOpen,
-                            onDismissRequest = { isSortMenuOpen = false }
+                            onDismissRequest = { isSortMenuOpen = false },
+                            containerColor = NotionSurfaceElevated
                         ) {
                             SortOption.entries.forEach { option ->
                                 DropdownMenuItem(
-                                    text = { Text(option.label) },
+                                    text = { Text(option.label, color = NotionText) },
                                     onClick = {
                                         sortOptionName = option.name
                                         isSortMenuOpen = false
@@ -291,9 +316,12 @@ fun TodoAppAndroid() {
                     Text(
                         text = "Completed",
                         style = MaterialTheme.typography.titleMedium,
-                        color = Color(0xFF3C3C3C)
+                        color = NotionText
                     )
-                    TextButton(onClick = { showCompleted = !showCompleted }) {
+                    TextButton(
+                        onClick = { showCompleted = !showCompleted },
+                        colors = ButtonDefaults.textButtonColors(contentColor = NotionMuted)
+                    ) {
                         Text(if (showCompleted) "Hide" else "Show")
                     }
                 }
@@ -328,6 +356,9 @@ fun TodoAppAndroid() {
                 showAddDialog = false
                 errorMessage = null
             },
+            containerColor = NotionSurfaceElevated,
+            titleContentColor = NotionText,
+            textContentColor = NotionText,
             title = { Text("Tambah Tugas Baru") },
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -336,7 +367,16 @@ fun TodoAppAndroid() {
                         onValueChange = { titleInput = it },
                         label = { Text("Nama Tugas") },
                         modifier = Modifier.fillMaxWidth(),
-                        singleLine = true
+                        singleLine = true,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = NotionText,
+                            unfocusedTextColor = NotionText,
+                            focusedLabelColor = NotionMuted,
+                            unfocusedLabelColor = NotionMuted,
+                            cursorColor = NotionText,
+                            focusedBorderColor = NotionText,
+                            unfocusedBorderColor = NotionBorder
+                        )
                     )
 
                     Text("Deadline", style = MaterialTheme.typography.labelLarge)
@@ -395,7 +435,7 @@ fun TodoAppAndroid() {
                     if (errorMessage != null) {
                         Text(
                             text = errorMessage!!,
-                            color = MaterialTheme.colorScheme.error,
+                            color = NotionDanger,
                             style = MaterialTheme.typography.bodySmall
                         )
                     }
@@ -407,7 +447,11 @@ fun TodoAppAndroid() {
                         if (tryAddTask()) {
                             showAddDialog = false
                         }
-                    }
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = NotionText,
+                        contentColor = NotionBg
+                    )
                 ) {
                     Text("Simpan")
                 }
@@ -417,7 +461,8 @@ fun TodoAppAndroid() {
                     onClick = {
                         showAddDialog = false
                         errorMessage = null
-                    }
+                    },
+                    colors = ButtonDefaults.textButtonColors(contentColor = NotionMuted)
                 ) {
                     Text("Batal")
                 }
@@ -434,7 +479,7 @@ private fun SummaryCard(
 ) {
     Card(
         shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1A9AF5)),
+        colors = CardDefaults.cardColors(containerColor = NotionSurfaceElevated),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
@@ -451,25 +496,25 @@ private fun SummaryCard(
                 Box(
                     modifier = Modifier
                         .size(42.dp)
-                        .background(Color.White, CircleShape),
+                        .background(NotionBorder, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "✓",
-                        color = Color(0xFF1A9AF5),
+                        text = "V",
+                        color = NotionText,
                         fontWeight = FontWeight.Bold
                     )
                 }
                 Text(
                     text = "$completed/$total",
-                    color = Color.White,
+                    color = NotionMuted,
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold
                 )
             }
             Text(
                 text = dateText,
-                color = Color.White,
+                color = NotionText,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold
             )
@@ -485,7 +530,7 @@ private fun TaskItemCard(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
+        colors = CardDefaults.cardColors(containerColor = NotionSurface),
         shape = RoundedCornerShape(14.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
@@ -514,18 +559,21 @@ private fun TaskItemCard(
                     Text(
                         text = formatDeadline(task.deadline),
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray
+                        color = NotionMuted
                     )
                 }
             }
 
-            HorizontalDivider(color = Color(0xFFF0F0F0))
+            HorizontalDivider(color = NotionBorder)
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
             ) {
-                TextButton(onClick = onDelete) {
+                TextButton(
+                    onClick = onDelete,
+                    colors = ButtonDefaults.textButtonColors(contentColor = NotionMuted)
+                ) {
                     Text("Hapus")
                 }
             }
@@ -540,13 +588,13 @@ private fun EmptySectionCard(message: String) {
             .fillMaxWidth()
             .heightIn(min = 86.dp),
         shape = RoundedCornerShape(14.dp),
-        color = Color.White
+        color = NotionSurface
     ) {
         Box(contentAlignment = Alignment.Center) {
             Text(
                 text = message,
                 style = MaterialTheme.typography.bodyMedium,
-                color = Color.Gray
+                color = NotionMuted
             )
         }
     }
@@ -567,12 +615,14 @@ private fun IntDropdown(
         Text(
             text = label,
             style = MaterialTheme.typography.labelSmall,
-            color = Color(0xFF6C6C6C)
+            color = NotionMuted
         )
         Box(modifier = Modifier.fillMaxWidth()) {
             OutlinedButton(
                 onClick = { expanded = true },
                 modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = NotionText),
+                border = androidx.compose.foundation.BorderStroke(1.dp, NotionBorder),
                 contentPadding = androidx.compose.foundation.layout.PaddingValues(horizontal = 8.dp, vertical = 0.dp)
             ) {
                 Text(formatValue(selected), maxLines = 1)
@@ -581,11 +631,12 @@ private fun IntDropdown(
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
+                containerColor = NotionSurfaceElevated,
                 modifier = Modifier.heightIn(max = 220.dp)
             ) {
                 options.forEach { option ->
                     DropdownMenuItem(
-                        text = { Text(formatValue(option)) },
+                        text = { Text(formatValue(option), color = NotionText) },
                         onClick = {
                             onSelected(option)
                             expanded = false
@@ -600,7 +651,7 @@ private fun IntDropdown(
 @Preview(showBackground = true)
 @Composable
 fun TodoAppAndroidPreview() {
-    MaterialTheme {
+    MaterialTheme(colorScheme = NotionColorScheme) {
         TodoAppAndroid()
     }
 }
